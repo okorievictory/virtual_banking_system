@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>V_BankSystem</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<h1>VIDKON VIRTUAL BANK</h1>
+	<p id="status"></p>
+	<div class="btn">
+		<button id="deposit" onclick="Deposite()">Deposite</button>
+		<button id="withdraw" onclick="Withdrawal()">Withdraw</button>
+	</div>
+	<script type="text/javascript">
+		
+
+		let addmoney, withrawal,newBalance;
+		if (localStorage.getItem('userBalance') == null) {
+			let balance = 0;
+			localStorage.setItem("userBalance", balance);
+		}
+
+		function Deposite() {
+			addmoney = parseInt(prompt("Deposite Money"))
+			if(isNaN(addmoney) || addmoney == ""){	
+				alert("Wrong Entry \n Enter amount in figures")
+				addmoney = parseInt(prompt("Deposite Money"))
+			}else{
+				newBalance = parseInt(localStorage.getItem('userBalance')) + addmoney;
+				localStorage.setItem("userBalance", newBalance);
+
+				// localStorage.setItem("userBalance", addmoney);
+				document.getElementById('status').innerHTML = 'Your Balance Is : '+  balance();
+			}
+		}
+		
+		function Withdrawal() {
+			let withrawal = parseInt(prompt("Want to withdraw? \n Please enter amount"))
+			if (isNaN(withrawal) || withrawal ==""){
+				alert("Wrong Input!!!")
+				withrawal = parseInt(prompt("Want to withdraw? \n Please enter amount"))
+			}else{
+				let totalWithdrawal = withrawal + (withrawal*0.05)
+				if ((balance() - totalWithdrawal ) <= 1000) {
+					alert("Insufficient Amount; please make a deposit to withdraw")
+				}else{
+					newBalance = parseInt(localStorage.getItem('userBalance')) - totalWithdrawal;
+					localStorage.setItem("userBalance", newBalance);
+					document.getElementById('status').innerHTML = 'Your Balance Is : '+  balance();
+				}
+			}
+			
+		}
+
+		function balance() {
+			return localStorage.getItem('userBalance')
+		}
+	</script>
+
+</body>
+</html>
